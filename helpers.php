@@ -1,6 +1,13 @@
 <?php
 declare(strict_types=1);
 
+if (!function_exists('e')) {
+    function e(?string $v): string
+    {
+        return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8');
+    }
+}
+
 /**
  * Fetches exchange rates for the given currencies relative to the base.
  *
