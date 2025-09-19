@@ -1,0 +1,23 @@
+# Hata sayfaları
+ErrorDocument 404 /errors/404.html
+ErrorDocument 403 /errors/403.html
+ErrorDocument 500 /errors/500.html
+
+DirectoryIndex index.php
+RewriteEngine On
+RewriteBase /
+
+# 1) Hata sayfalarına ve fiziksel varlıklara dokunma (loop'u kes)
+RewriteCond %{REQUEST_URI} ^/errors/ [OR]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 2) Uzantısız path'leri mevcut .php dosyasına yönlendir (örn. /dashboard -> /dashboard.php)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+?)/?$ $1.php [L,QSA]
+
+# 3) Geri kalan her şeyi front controller'a gönder (uygulama router'ı)
+RewriteRule ^ index.php [L,QSA]
