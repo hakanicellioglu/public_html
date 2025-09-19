@@ -383,7 +383,14 @@ if ($gPost) {
             $motor = $_POST['motor_system'] ?? null;
             $glassType = $_POST['glass_type'] ?? null;
             $glassColor = $_POST['glass_color'] ?? null;
-            $remoteQty = filter_input(INPUT_POST, 'remote_quantity', FILTER_VALIDATE_INT);
+
+            $remoteRaw = $_POST['remote_quantity'] ?? null;
+            $remoteRaw = $remoteRaw === null ? null : trim((string) $remoteRaw);
+            if ($remoteRaw === null || $remoteRaw === '') {
+                $remoteQty = null;
+            } else {
+                $remoteQty = filter_var($remoteRaw, FILTER_VALIDATE_INT);
+            }
             $ralCode = trim($_POST['ral_code'] ?? '');
             $profitMargin = filter_input(INPUT_POST, 'profit_margin', FILTER_VALIDATE_FLOAT);
 
@@ -391,7 +398,15 @@ if ($gPost) {
                 && $height !== false && $height > 0
                 && $quantity !== false && $quantity > 0
                 && $profitMargin !== false && $profitMargin >= 0
-                && ($remoteQty === null || ($remoteQty !== false && $remoteQty > 0));
+                && (
+                    $remoteRaw === null
+                    || $remoteRaw === ''
+                    || ($remoteQty !== false && $remoteQty >= 0)
+                );
+
+            if ($remoteQty === false) {
+                $remoteQty = null;
+            }
 
             if (!$validNumbers) {
                 $error = 'Tüm sayısal alanlar pozitif olmalıdır.';
