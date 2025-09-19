@@ -927,7 +927,7 @@ page_header($title, $actions, true);
                         </div>
                         <div class="col-md-6">
                             <label for="remote_quantity" class="form-label">Kumanda Adedi</label>
-                            <input type="number" min="1" step="1" class="form-control" id="remote_quantity" name="remote_quantity" placeholder="0">
+                            <input type="number" min="0" step="1" class="form-control" id="remote_quantity" name="remote_quantity" placeholder="0">
                             <div class="form-text">adet</div>
                         </div>
                         <div class="col-md-6">
